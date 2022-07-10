@@ -8,8 +8,10 @@
 import UIKit
 
 class BottomSheet: UIView {
+    var action: (() -> Void)!
 
     @IBAction func showLoginPage(_ sender: Any) {
+        action()
     }
 
     @IBAction func dismiss(_ sender: Any) {

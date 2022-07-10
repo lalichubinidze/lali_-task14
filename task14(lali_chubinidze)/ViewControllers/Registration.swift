@@ -7,9 +7,9 @@ class Registration: UIViewController {
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var connfirmPasswordField: UITextField!
 
-    public var saveUsername: ((UITextField?) -> ())?
-    public var savePassword: ((UITextField?) -> ())?
-    public var saveEmail: ((UITextField?) -> ())?
+    public var saveUsername: ((String?) -> ())?
+    public var savePassword: ((String?) -> ())?
+    public var saveEmail: ((String?) -> ())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,15 +29,15 @@ class Registration: UIViewController {
         if passwordField.text!.count <= 8 {
             secureAlert()
         }else {
-            dismiss(animated: true)
+            navigationController?.popViewController(animated: true)
         }
     }
 
     @IBAction func signUpButton(_ sender: Any) {
         if entered() {
-            saveUsername?(usernameField)
-            saveEmail?(emailField)
-            savePassword?(passwordField)
+            saveUsername?(usernameField.text!)
+            saveEmail?(emailField.text!)
+            savePassword?(passwordField.text!)
             alerts()
         } else {
             enterData()
@@ -45,7 +45,7 @@ class Registration: UIViewController {
     }
 
     @IBAction func backButton(_ sender: Any) {
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 
     func showAlert() {

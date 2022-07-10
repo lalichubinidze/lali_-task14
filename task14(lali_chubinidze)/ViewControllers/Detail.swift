@@ -5,25 +5,26 @@ class Detail: UIViewController {
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var email: UILabel!
 
+    var username2: String!
+    var email2: String!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateLabels()
+        self.username.text = username2
+        self.email.text = email2
     }
 
     @IBAction func presentSheet(_ sender: Any) {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "Sheet") as! Sheet
-        present(vc, animated: true)
+        guard let myView = Bundle.main.loadNibNamed("BottomSheet", owner: nil, options: nil)![0] as? BottomSheet else { return }
+        myView.action = {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "Login") as? Login
+            guard let vc = vc else { return }
+            self.navigationController?.viewControllers = [vc]
+        }
+        myView.frame = CGRect(x: 30, y: 350, width: 325, height: 150)
+        view.addSubview(myView)
     }
 
-    func updateLabels() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "Registration") as? Registration
-        guard let vc = vc else { return }
-        vc.saveUsername = { value in
-            self.username.text = value?.text
-        }
-        vc.saveEmail = { value in
-            self.email.text = value?.text
-        }
-    }
+
 }
